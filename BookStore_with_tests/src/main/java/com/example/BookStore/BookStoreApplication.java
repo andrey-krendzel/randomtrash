@@ -1,10 +1,12 @@
 package com.example.BookStore;
 
+import com.example.BookStore.storage.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 import com.example.BookStore.domain.Book;
@@ -18,6 +20,7 @@ import com.example.BookStore.domain.UserRepository;
 
 
 @SpringBootApplication
+@EnableConfigurationProperties(com.example.BookStore.storage.StorageProperties.class)
 public class BookStoreApplication {
 	private static final Logger log = LoggerFactory.getLogger(BookStoreApplication.class);
 	
@@ -26,8 +29,13 @@ public class BookStoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner demo(BookRepository repository, CategoryRepository drepository, UserRepository userRepository) {
+	public CommandLineRunner demo(BookRepository repository, CategoryRepository drepository, UserRepository userRepository, StorageService storageService) {
 	return (args) -> {
+
+		//Storage
+		storageService.deleteAll();
+		storageService.init();
+
 		log.info("save a couple of books");
 		drepository.save(new Category("Political books"));
 		
