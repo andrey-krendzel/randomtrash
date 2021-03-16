@@ -38,7 +38,7 @@ public class BookStoreApplicationController {
 		return "booklist";
 	}
 	
-    @RequestMapping(value={"/", "/home"})
+    @RequestMapping(value={"/home"})
 	public String homeSecure() {
 		return "home";
 	}  

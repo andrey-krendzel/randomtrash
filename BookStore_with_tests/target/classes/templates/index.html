@@ -1,12 +1,20 @@
-<!DOCTYPE HTML>
-<html xmlns:th="https://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Getting Started: Handling Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+    <title>Spring Boot File Upload Example</title>
 </head>
+
 <body>
-<table>
-<span th:text="'Welcome to Haaga-helia'">Welcome</span>
-</table>
+<th:block th:include="/_menu"></th:block>
+
+<h3>Spring Boot File Upload Example</h3>
+
+<ul>
+    <li><a th:href="@{/uploadOneFile}">Upload One File Example</a></li>
+    <li><a th:href="@{/uploadMultiFile}">Upload Multiple Files Example</a></li>
+</ul>
+
 </body>
 </html>

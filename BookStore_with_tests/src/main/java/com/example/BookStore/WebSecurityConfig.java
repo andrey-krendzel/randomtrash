@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import com.example.BookStore.controller.UserDetailServiceImpl;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 
 @Configuration
@@ -27,11 +28,19 @@ import com.example.BookStore.controller.UserDetailServiceImpl;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Autowired
 	    private UserDetailServiceImpl userDetailsService;	
+
+
+    @Autowired
+    private Http403ForbiddenEntryPoint forbiddenEntryPoint;
+
+    @Bean
+    public Http403ForbiddenEntryPoint forbiddenEntryPoint() {
+        return new Http403ForbiddenEntryPoint();
+    }
+
     @Override
-    
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
+        http.authorizeRequests()
              // .antMatchers("/", "/files/**", "/upload-dir/**", "/files", "/upload-dir").permitAll()
             .antMatchers("/delete/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -41,6 +50,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .and()
+                .httpBasic()
+                .authenticationEntryPoint(forbiddenEntryPoint)
+                .and()
+                .csrf().disable()
             .logout()
                 .permitAll();
     }
